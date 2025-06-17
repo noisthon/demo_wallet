@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:wallet/main.dart';
+import 'package:wallet/style/theme.dart';
 
 const kAppBarHeight = 42.0;
 
-class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Widget? leading;
   final bool automaticallyImplyLeading;
   final Widget? title;
@@ -30,7 +32,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final TextStyle? titleTextStyle;
   final bool showRouteName;
 
-  const CustomAppBar({
+  const MyAppBar({
     super.key,
     this.leading,
     this.automaticallyImplyLeading = true,
@@ -64,51 +66,51 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     final ModalRoute<dynamic>? parentRoute = ModalRoute.of(context);
     final bool canPopParent = parentRoute?.canPop ?? false;
     final bool canPop = ModalRoute.canPopOf(context) ?? false;
-    // List<Widget>? newActions;
 
-    // if ((actions?.length ?? 0) > 0) {
-    //   newActions = List.generate(actions!.length, (index) {
-    //     // if (index == actions!.length - 1) {
-    //     //   return actions![index];
-    //     // } else {
-    //     return Padding(
-    //       padding: const EdgeInsets.only(
-    //         right: kPaddingMedium,
-    //         top: kPaddingXXSmall,
-    //         bottom: kPaddingXXSmall,
-    //       ),
-    //       child: actions![index],
-    //     );
-    //     // }
-    //   });
-    // }
-
-    return AppBar(
-      leading: leading ??
-          ((canPop || canPopParent) ? const CustomBackButton() : null),
-      automaticallyImplyLeading: automaticallyImplyLeading,
-      title: title,
-      actions: actions,
-      flexibleSpace: flexibleSpace,
-      bottom: bottom,
-      elevation: elevation,
-      shadowColor: shadowColor,
-      shape: shape,
-      backgroundColor: backgroundColor,
-      foregroundColor: foregroundColor,
-      systemOverlayStyle: systemOverlayStyle,
-      iconTheme: iconTheme,
-      actionsIconTheme: actionsIconTheme,
-      primary: primary,
-      centerTitle: centerTitle,
-      excludeHeaderSemantics: excludeHeaderSemantics,
-      titleSpacing: titleSpacing,
-      toolbarOpacity: toolbarOpacity,
-      bottomOpacity: bottomOpacity,
-      leadingWidth: leadingWidth,
-      toolbarTextStyle: toolbarTextStyle,
-      titleTextStyle: titleTextStyle,
-      toolbarHeight: kAppBarHeight,
+    return Column(
+      children: [
+        AppBar(
+          leading: leading ??
+              ((canPop || canPopParent) ? const CustomBackButton() : null),
+          automaticallyImplyLeading: automaticallyImplyLeading,
+          title: title,
+          actions: actions,
+          flexibleSpace: flexibleSpace,
+          bottom: bottom,
+          elevation: elevation,
+          shadowColor: shadowColor,
+          shape: shape,
+          backgroundColor: backgroundColor,
+          foregroundColor: foregroundColor,
+          systemOverlayStyle: systemOverlayStyle,
+          iconTheme: iconTheme,
+          actionsIconTheme: actionsIconTheme,
+          primary: primary,
+          centerTitle: centerTitle,
+          excludeHeaderSemantics: excludeHeaderSemantics,
+          titleSpacing: titleSpacing,
+          toolbarOpacity: toolbarOpacity,
+          bottomOpacity: bottomOpacity,
+          leadingWidth: leadingWidth,
+          toolbarTextStyle: toolbarTextStyle,
+          titleTextStyle: titleTextStyle,
+          toolbarHeight: kAppBarHeight - 2,
+        ),
+        Stack(
+          children: [
+            Container(
+              width: double.infinity,
+              height: 2,
+              color: MyColor.lightGrey,
+            ),
+            Container(
+              width: 50,
+              height: 2,
+              color: MyColor.primary,
+            ),
+          ],
+        ),
+      ],
     );
   }
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:wallet/main.dart';
 import 'package:wallet/screens/sign_up.screen.dart';
+import 'package:wallet/style/theme.dart';
 import 'package:wallet/utils/extensions.dart';
 
 class OnBoardingScreen extends StatefulWidget {
