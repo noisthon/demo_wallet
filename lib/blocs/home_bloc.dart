@@ -26,14 +26,20 @@ class HomeBloc extends BaseBloc {
       flagPath: 'packages/country_code_picker/flags/mn.png',
     ),
   ]);
-  final _selectedCurrencyController = BehaviorSubject<String>.seeded("USD");
+  final _selectedCurrencyController = BehaviorSubject<Currency>.seeded(
+    const Currency(
+      curCode: "USD",
+      title: "US Dollar",
+      flagPath: 'packages/country_code_picker/flags/us.png',
+    ),
+  );
 
-  Function(String) get changeCurrency => _selectedCurrencyController.sink.add;
+  Function(Currency) get changeCurrency => _selectedCurrencyController.sink.add;
 
   Stream<Balance> get balanceStream => _balanceController.stream;
   Stream<List<Currency>> get currencyDictStream =>
       _currencyDictController.stream;
-  Stream<String> get currencyStream => _selectedCurrencyController.stream;
+  Stream<Currency> get currencyStream => _selectedCurrencyController.stream;
 
   Future<void> getAddition(BuildContext context) async {}
 

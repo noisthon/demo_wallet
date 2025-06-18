@@ -14,6 +14,7 @@ import 'package:wallet/screens/additional_info.screen.dart';
 import 'package:wallet/screens/auth.screen.dart';
 import 'package:wallet/screens/home.screen.dart';
 import 'package:wallet/screens/on_boarding.screen.dart';
+import 'package:wallet/screens/send_modey.screen.dart';
 import 'package:wallet/screens/sign_in.screen.dart';
 import 'package:wallet/screens/sign_up.screen.dart';
 import 'package:wallet/style/theme.dart';
@@ -83,6 +84,7 @@ class _MyAppState extends State<MyApp> {
                 OnBoardingScreen.routeName: (context) =>
                     const OnBoardingScreen(),
                 AuthScreen.routeName: (context) => const AuthScreen(),
+                SendModeyScreen.routeName: (context) => const SendModeyScreen(),
                 HomeScreen.routeName: (context) => CustomProvider(
                       create: (context) => HomeBloc(),
                       child: const HomeScreen(),

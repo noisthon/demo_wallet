@@ -1,17 +1,9 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet/blocs/app_bloc.dart';
 import 'package:wallet/blocs/home_bloc.dart';
-import 'package:wallet/models/balance.dart';
-import 'package:wallet/models/currency.dart';
-import 'package:wallet/screens/additional_info.screen.dart';
 import 'package:wallet/style/theme.dart';
 import 'package:wallet/utils/extensions.dart';
-import 'package:wallet/utils/ui_utils.dart';
-import 'package:wallet/widgets/app_bar.dart';
 
 class BalanceMainCard extends StatelessWidget {
   const BalanceMainCard({
@@ -25,7 +17,8 @@ class BalanceMainCard extends StatelessWidget {
     return StreamBuilder(
         stream: bloc.currencyStream,
         builder: (context, asyncSnapshot) {
-          final curCode = asyncSnapshot.data ?? "USD";
+          final currency = asyncSnapshot.data;
+          final curCode = currency?.curCode ?? "USD";
           return Column(
             children: [
               Row(
@@ -85,23 +78,16 @@ class BalanceMainCard extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 24),
-              Container(
-                height: 32,
-                width: 100,
-                child: StreamBuilder(
+              if (currency != null)
+                StreamBuilder(
                     stream: bloc.currencyDictStream,
                     builder: (context, asyncSnapshot) {
-                      return DropdownButton(
-                        value: curCode,
-                        iconEnabledColor: Colors.white,
-                        underline: const SizedBox.shrink(),
-                        isExpanded: true,
-                        padding: EdgeInsets.zero,
-                        dropdownColor: MyColor.primary,
-                        items: (asyncSnapshot.data ?? [])
-                            .map((c) => DropdownMenuItem(
-                                  value: c.curCode,
+                      return PopupMenuButton(
+                        position: PopupMenuPosition.under,
+                        itemBuilder: (context) => (asyncSnapshot.data ?? [])
+                            .map((c) => PopupMenuItem(
                                   child: Row(
+                                    mainAxisSize: MainAxisSize.min,
                                     children: [
                                       CircleAvatar(
                                         minRadius: 5,
@@ -109,21 +95,73 @@ class BalanceMainCard extends StatelessWidget {
                                         maxRadius: 10,
                                       ),
                                       const SizedBox(width: 4),
-                                      Expanded(
-                                          child: c.title.text(11400,
-                                              color: Colors.white)),
+                                      c.title.text(11400),
                                     ],
                                   ),
+                                  onTap: () {
+                                    bloc.changeCurrency(c);
+                                  },
                                 ))
                             .toList(),
-                        onChanged: (String? value) {
-                          bloc.changeCurrency(
-                            value ?? curCode,
-                          );
-                        },
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            CircleAvatar(
+                              minRadius: 5,
+                              backgroundImage: AssetImage(currency.flagPath),
+                              maxRadius: 10,
+                            ),
+                            const SizedBox(width: 4),
+                            currency.title.text(11400, color: Colors.white),
+                            const SizedBox(width: 4),
+                            const Icon(
+                              Icons.keyboard_arrow_down_rounded,
+                              color: Colors.white,
+                              size: 14,
+                            )
+                          ],
+                        ),
                       );
                     }),
-              ),
+              // Container(
+              //   height: 32,
+              //   width: 100,
+              //   child: StreamBuilder(
+              //       stream: bloc.currencyDictStream,
+              //       builder: (context, asyncSnapshot) {
+              //         return DropdownButton(
+              //           value: currency,
+              //           iconEnabledColor: Colors.white,
+              //           underline: const SizedBox.shrink(),
+              //           isExpanded: true,
+              //           padding: EdgeInsets.zero,
+              //           dropdownColor: MyColor.primary,
+              //           items: (asyncSnapshot.data ?? [])
+              //               .map((c) => DropdownMenuItem(
+              //                     value: c.curCode,
+              //                     child: Row(
+              //                       children: [
+              //                         CircleAvatar(
+              //                           minRadius: 5,
+              //                           backgroundImage: AssetImage(c.flagPath),
+              //                           maxRadius: 10,
+              //                         ),
+              //                         const SizedBox(width: 4),
+              //                         Expanded(
+              //                             child: c.title.text(11400,
+              //                                 color: Colors.white)),
+              //                       ],
+              //                     ),
+              //                   ))
+              //               .toList(),
+              //           onChanged: (String? value) {
+              //             bloc.changeCurrency(
+              //               value ?? currency,
+              //             );
+              //           },
+              //         );
+              //       }),
+              // ),
               StreamBuilder(
                 stream: bloc.balanceStream,
                 builder: (context, snapshot) => (snapshot.data?.balance ?? 0.0)

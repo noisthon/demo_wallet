@@ -1,14 +1,10 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 import 'package:wallet/blocs/app_bloc.dart';
-import 'package:wallet/blocs/home_bloc.dart';
 import 'package:wallet/screens/additional_info.screen.dart';
 import 'package:wallet/style/theme.dart';
-import 'package:wallet/utils/extensions.dart';
 import 'package:wallet/utils/ui_utils.dart';
 import 'package:wallet/widgets/balance/balance_action_tile.dart';
 import 'package:wallet/widgets/balance/balance_main_card.dart';

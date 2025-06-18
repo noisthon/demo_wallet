@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wallet/screens/send_modey.screen.dart';
 import 'package:wallet/style/theme.dart';
 import 'package:wallet/utils/extensions.dart';
 
@@ -12,6 +13,9 @@ class BalanceActionTile extends StatelessWidget {
         "iconData": Icons.monetization_on,
         "color": MyColor.primary,
         "title": "Send",
+        "onPressed": () {
+          Navigator.pushNamed(context, SendModeyScreen.routeName);
+        },
       },
       {
         "iconData": Icons.attach_money_rounded,
@@ -37,16 +41,20 @@ class BalanceActionTile extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               for (int i = 0; i < actions.length; i++) ...[
-                Column(
-                  children: [
-                    Icon(
-                      actions[i]["iconData"] as IconData,
-                      size: 34,
-                      color: actions[i]["color"] as Color,
-                    ),
-                    const SizedBox(height: 4),
-                    (actions[i]["title"] as String).text(13400),
-                  ],
+                GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: actions[i]["onPressed"] as VoidCallback?,
+                  child: Column(
+                    children: [
+                      Icon(
+                        actions[i]["iconData"] as IconData,
+                        size: 34,
+                        color: actions[i]["color"] as Color,
+                      ),
+                      const SizedBox(height: 4),
+                      (actions[i]["title"] as String).text(13400),
+                    ],
+                  ),
                 ),
                 if (i != actions.length - 1)
                   Container(

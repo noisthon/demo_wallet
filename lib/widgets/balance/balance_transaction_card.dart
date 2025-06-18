@@ -20,7 +20,8 @@ class BalanceTransactionCard extends StatelessWidget {
         StreamBuilder(
             stream: homeBloc.currencyStream,
             builder: (context, asyncSnapshot) {
-              final curCode = asyncSnapshot.data ?? "USD";
+              final currency = asyncSnapshot.data;
+              final curCode = currency?.curCode ?? "USD";
               return Material(
                 borderRadius: BorderRadius.circular(16),
                 color: Colors.white,

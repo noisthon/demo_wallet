@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:wallet/main.dart';
-import 'package:wallet/screens/sign_up.screen.dart';
+import 'package:wallet/screens/auth.screen.dart';
 import 'package:wallet/style/theme.dart';
 import 'package:wallet/utils/extensions.dart';
 
@@ -55,7 +54,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
   void onPressNext() {
     if (selectedPage.round() == pages.length - 1) {
-      Navigator.of(context).pushNamed(SignUpScreen.routeName);
+      Navigator.of(context).pushNamed(AuthScreen.routeName);
     } else {
       pageController.nextPage(
         duration: Durations.medium2,
