@@ -54,7 +54,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
   void onPressNext() {
     if (selectedPage.round() == pages.length - 1) {
-      Navigator.of(context).pushNamed(AuthScreen.routeName);
+      Navigator.of(context).pushReplacementNamed(AuthScreen.routeName);
     } else {
       pageController.nextPage(
         duration: Durations.medium2,

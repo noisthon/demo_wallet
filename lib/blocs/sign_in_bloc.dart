@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:wallet/base/base_bloc.dart';
@@ -42,11 +43,21 @@ class SignInBloc extends BaseBloc with ValidationMixin {
       ]).map((errors) => errors.every((error) => error == null)).distinct();
 
   void onSignIn(BuildContext context) async {
-    final user = await repository.signIn(_regionCodeController.value,
-        _mobileNoController.value, _passwordController.value);
-    if (context.mounted && user != null) {
+    try {
+      final user = await repository.signIn(_regionCodeController.value,
+          _mobileNoController.value, _passwordController.value);
       final appBloc = context.read<AppBloc>();
       appBloc.authenticate(user);
+    } catch (e) {
+      Fluttertoast.showToast(
+        msg: e.toString(),
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
     }
   }
 

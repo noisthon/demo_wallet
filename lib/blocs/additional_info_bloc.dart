@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:wallet/base/base_bloc.dart';
@@ -102,26 +103,38 @@ class AdditionalInfoBloc extends BaseBloc with ValidationMixin {
   }
 
   Future<void> updateAdditionInfo(BuildContext context) async {
-    final appBloc = context.read<AppBloc>();
-    await repository.updateAdditionInfo(
-      regionCode: appBloc.authUser.regionCode,
-      mobileNo: appBloc.authUser.mobileNo,
-      email: _emailController.value,
-      addressLine: _addressLineController.value,
-      city: _cityController.value,
-      postCode: _postCodeController.value,
-      residence: _residenceController.value,
-      fullNameLine: _fullNameLineController.value,
-      username: _usernameController.value,
-      birthDate: _birthDateController.value,
-    );
+    try {
+      final appBloc = context.read<AppBloc>();
+      await repository.updateAdditionInfo(
+        regionCode: appBloc.authUser.regionCode,
+        mobileNo: appBloc.authUser.mobileNo,
+        email: _emailController.value,
+        addressLine: _addressLineController.value,
+        city: _cityController.value,
+        postCode: _postCodeController.value,
+        residence: _residenceController.value,
+        fullNameLine: _fullNameLineController.value,
+        username: _usernameController.value,
+        birthDate: _birthDateController.value,
+      );
 
-    final newUser = await repository.updateAddition(
-      appBloc.authUser.regionCode,
-      appBloc.authUser.mobileNo,
-      true,
-    );
-    appBloc.authenticate(newUser);
+      final newUser = await repository.updateAddition(
+        appBloc.authUser.regionCode,
+        appBloc.authUser.mobileNo,
+        true,
+      );
+      appBloc.authenticate(newUser);
+    } catch (e) {
+      Fluttertoast.showToast(
+        msg: e.toString(),
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+    }
   }
 
   @override

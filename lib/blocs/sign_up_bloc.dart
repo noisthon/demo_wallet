@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:wallet/base/base_bloc.dart';
@@ -81,12 +82,24 @@ class SignUpBloc extends BaseBloc with ValidationMixin {
 
   void onSignUp(BuildContext context) async {
     final appBloc = context.read<AppBloc>();
-    final user = await repository.signUp(
-        _regionCodeController.value,
-        _mobileNoController.value,
-        _passwordController.value,
-        _otpController.value);
-    appBloc.authenticate(user);
+    try {
+      final user = await repository.signUp(
+          _regionCodeController.value,
+          _mobileNoController.value,
+          _passwordController.value,
+          _otpController.value);
+      appBloc.authenticate(user);
+    } catch (e) {
+      Fluttertoast.showToast(
+        msg: e.toString(),
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+    }
   }
 
   @override

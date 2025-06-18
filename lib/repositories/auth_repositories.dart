@@ -38,10 +38,13 @@ class Repository {
     return newUser;
   }
 
-  Future<User?> signIn(
+  Future<User> signIn(
       String regionCode, String mobileNo, String password) async {
     final box = await Hive.openBox<User>("auth");
     final user = box.get(regionCode + mobileNo);
+    if (user == null) {
+      throw "Invalid credentials";
+    }
     return user;
   }
 

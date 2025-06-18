@@ -69,7 +69,7 @@ class _QrReaderScreenState extends State<QrReaderScreen>
                     painter: QRBorder(),
                     child: ColorFiltered(
                       colorFilter: ColorFilter.mode(
-                          Colors.black.withValues(alpha: 0.8),
+                          MyColor.primary.withValues(alpha: 0.8),
                           BlendMode.srcOut), // This one will create the magic
                       child: Stack(
                         fit: StackFit.expand,

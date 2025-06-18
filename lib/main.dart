@@ -120,7 +120,7 @@ class _MyAppState extends State<MyApp> {
                       child: const SignInScreen(),
                     ),
               },
-              initialRoute: AuthScreen.routeName,
+              initialRoute: OnBoardingScreen.routeName,
               builder: (context, child) => HelperWidget(child: child),
             );
           }),
