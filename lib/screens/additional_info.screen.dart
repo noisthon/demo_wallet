@@ -2,25 +2,26 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:wallet/blocs/sign_up_bloc.dart';
+import 'package:wallet/blocs/additional_info_bloc.dart';
 import 'package:wallet/utils/ui_utils.dart';
+import 'package:wallet/widgets/additional_info/additional_info_add_email.dart';
+import 'package:wallet/widgets/additional_info/additional_info_country_of_residence.dart';
+import 'package:wallet/widgets/additional_info/additional_info_home_address.dart';
+import 'package:wallet/widgets/additional_info/additional_info_personal_info.dart';
 import 'package:wallet/widgets/app_bar.dart';
-import 'package:wallet/widgets/sign_up/sign_up_step_create_account.dart';
-import 'package:wallet/widgets/sign_up/sign_up_step_verify_number.dart';
 
-class SignUpScreen extends StatefulWidget {
-  static const routeName = "SignUp";
-  const SignUpScreen({super.key});
+class AdditionalInfoScreen extends StatefulWidget {
+  static const routeName = "AdditionalInfo";
+  const AdditionalInfoScreen({super.key});
 
   @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
+  State<AdditionalInfoScreen> createState() => _AdditionalInfoScreenState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
+class _AdditionalInfoScreenState extends State<AdditionalInfoScreen> {
   late final PageController pageController;
-  late final SignUpBloc bloc;
-
-  StreamSubscription? _stepChangeListener;
+  late final AdditionalInfoBloc bloc;
+  late final StreamSubscription _stepChangeListener;
 
   @override
   void initState() {
@@ -32,7 +33,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   void dispose() {
-    _stepChangeListener?.cancel();
+    _stepChangeListener.cancel();
     super.dispose();
   }
 
@@ -56,18 +57,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
           return PopScope(
             canPop: asyncSnapshot.data == 0,
             onPopInvokedWithResult: (didPop, result) {
-              if (asyncSnapshot.data != 0) {
+              if ((asyncSnapshot.data ?? 0) > 0) {
                 bloc.navToPrevStep();
               }
             },
             child: Scaffold(
               appBar: const MyAppBar(),
               body: PageView(
-                physics: const NeverScrollableScrollPhysics(),
                 controller: pageController,
+                physics: const NeverScrollableScrollPhysics(),
                 children: const [
-                  SignUpStepCreateAccount(),
-                  SignUpStepVerifyNumber(),
+                  AdditionalInfoAddEmail(),
+                  AdditionalInfoHomeAddress(),
+                  AdditionalInfoPersonalInfo(),
+                  AdditionalInfoCountryOfResidence(),
                 ],
               ),
             ),

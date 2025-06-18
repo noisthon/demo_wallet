@@ -1,17 +1,22 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:provider/provider.dart';
+import 'package:wallet/blocs/additional_info_bloc.dart';
 import 'package:wallet/blocs/app_bloc.dart';
+import 'package:wallet/blocs/home_bloc.dart';
 import 'package:wallet/blocs/sign_in_bloc.dart';
 import 'package:wallet/blocs/sign_up_bloc.dart';
+import 'package:wallet/models/additional_info.dart';
 import 'package:wallet/models/user.dart';
+import 'package:wallet/screens/additional_info.screen.dart';
 import 'package:wallet/screens/auth.screen.dart';
 import 'package:wallet/screens/home.screen.dart';
 import 'package:wallet/screens/on_boarding.screen.dart';
 import 'package:wallet/screens/sign_in.screen.dart';
 import 'package:wallet/screens/sign_up.screen.dart';
 import 'package:wallet/style/theme.dart';
-import 'package:wallet/utils/extensions.dart';
 import 'package:wallet/widgets/hide_keyboard.dart';
 import 'package:wallet/widgets/provider.dart';
 
@@ -19,6 +24,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   Hive.registerAdapter(UserImplAdapter());
+  Hive.registerAdapter(AdditionalInfoImplAdapter());
+  // Hive.deleteBoxFromDisk("auth");
   runApp(const MyApp());
 }
 
@@ -33,11 +40,13 @@ class _MyAppState extends State<MyApp> {
   late final GlobalKey<NavigatorState> navigatorKey =
       GlobalKey<NavigatorState>();
   late final AppBloc appBloc;
+  late final StreamSubscription authStateSubscription;
+
   @override
   void initState() {
     appBloc = AppBloc();
-    appBloc.authStateStream.listen((authState) {
-      if (authState) {
+    authStateSubscription = appBloc.authUserStream.listen((user) {
+      if (user != null) {
         navigatorKey.currentState?.pushNamedAndRemoveUntil(
           HomeScreen.routeName,
           (Route<dynamic> route) => false,
@@ -54,6 +63,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void dispose() {
+    authStateSubscription.cancel();
     super.dispose();
   }
 
@@ -73,12 +83,20 @@ class _MyAppState extends State<MyApp> {
                 OnBoardingScreen.routeName: (context) =>
                     const OnBoardingScreen(),
                 AuthScreen.routeName: (context) => const AuthScreen(),
-                HomeScreen.routeName: (context) => const HomeScreen(),
-                SignUpScreen.routeName: (context) => CustomProvider<SignUpBloc>(
+                HomeScreen.routeName: (context) => CustomProvider(
+                      create: (context) => HomeBloc(),
+                      child: const HomeScreen(),
+                    ),
+                SignUpScreen.routeName: (context) => CustomProvider(
                       create: (_) => SignUpBloc(),
                       child: const SignUpScreen(),
                     ),
-                SignInScreen.routeName: (context) => CustomProvider<SignInBloc>(
+                AdditionalInfoScreen.routeName: (context) =>
+                    CustomProvider<AdditionalInfoBloc>(
+                      create: (_) => AdditionalInfoBloc(),
+                      child: const AdditionalInfoScreen(),
+                    ),
+                SignInScreen.routeName: (context) => CustomProvider(
                       create: (_) => SignInBloc(),
                       child: const SignInScreen(),
                     ),

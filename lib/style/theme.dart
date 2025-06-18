@@ -5,6 +5,8 @@ abstract interface class MyColor {
   static const Color primary = Color(0xFF304FFE);
   static const Color lightGrey = Color(0xFFD0D0D0);
   static const Color grey = Color(0xFF565656);
+  static const Color purple = Color(0xFF778bfe);
+  static const Color orange = Color(0xFFfaa824);
 }
 
 abstract interface class MyTheme {

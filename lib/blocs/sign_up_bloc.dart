@@ -10,26 +10,19 @@ import 'package:wallet/utils/extensions.dart';
 import 'package:wallet/utils/mixin.dart';
 import 'package:wallet/widgets/sign_up/verify_mobile_no_dialog.dart';
 
-enum SignUpStep {
-  create,
-  validate,
-}
-
-class SignUpBloc with ValidationMixin implements BaseBloc {
-  final _repositories = UserRepositories();
-
+class SignUpBloc extends BaseBloc with ValidationMixin {
   final _regionCodeController = BehaviorSubject<String>.seeded("+976");
   final _mobileNoController = BehaviorSubject<String>();
   final _passwordController = BehaviorSubject<String>();
   final _otpController = BehaviorSubject<String>();
-  final _stepController = BehaviorSubject<SignUpStep>();
+  final _stepController = BehaviorSubject<int>.seeded(0);
 
   Function(String) get changeRegionCode => _regionCodeController.sink.add;
   Function(String) get changeMobileNo => _mobileNoController.sink.add;
   Function(String) get changePassword => _passwordController.sink.add;
   Function(String) get changeOtp => _otpController.sink.add;
 
-  Stream<SignUpStep> get stepStream => _stepController.stream;
+  Stream<int> get stepStream => _stepController.stream;
   Stream<String> get regionCodeStream => _regionCodeController.stream;
   Stream<String> get mobileNoStream => _mobileNoController.stream;
   Stream<String> get passwordStream => _passwordController.stream;
@@ -74,21 +67,26 @@ class SignUpBloc with ValidationMixin implements BaseBloc {
     );
 
     if (verifyDialogResult ?? false) {
-      _stepController.sink.add(SignUpStep.validate);
+      navToNextStep();
     }
+  }
+
+  void navToPrevStep() {
+    _stepController.sink.add(_stepController.value - 1);
+  }
+
+  void navToNextStep() {
+    _stepController.sink.add(_stepController.value + 1);
   }
 
   void onSignUp(BuildContext context) async {
-    final user = await _repositories.signUp(_regionCodeController.value,_mobileNoController.value,
-        _passwordController.value, _otpController.value);
-    if (context.mounted) {
-      final appBloc = context.read<AppBloc>();
-      appBloc.authenticate(user);
-    }
-  }
-
-  void navToCreate() {
-    _stepController.sink.add(SignUpStep.create);
+    final appBloc = context.read<AppBloc>();
+    final user = await repository.signUp(
+        _regionCodeController.value,
+        _mobileNoController.value,
+        _passwordController.value,
+        _otpController.value);
+    appBloc.authenticate(user);
   }
 
   @override

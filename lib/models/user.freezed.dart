@@ -21,9 +21,13 @@ User _$UserFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$User {
   @HiveField(0)
-  String get mobileNo => throw _privateConstructorUsedError;
+  String get regionCode => throw _privateConstructorUsedError;
   @HiveField(1)
+  String get mobileNo => throw _privateConstructorUsedError;
+  @HiveField(2)
   String get password => throw _privateConstructorUsedError;
+  @HiveField(3)
+  bool get hasAddition => throw _privateConstructorUsedError;
 
   /// Serializes this User to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -39,7 +43,11 @@ abstract class $UserCopyWith<$Res> {
   factory $UserCopyWith(User value, $Res Function(User) then) =
       _$UserCopyWithImpl<$Res, User>;
   @useResult
-  $Res call({@HiveField(0) String mobileNo, @HiveField(1) String password});
+  $Res call(
+      {@HiveField(0) String regionCode,
+      @HiveField(1) String mobileNo,
+      @HiveField(2) String password,
+      @HiveField(3) bool hasAddition});
 }
 
 /// @nodoc
@@ -57,10 +65,16 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? regionCode = null,
     Object? mobileNo = null,
     Object? password = null,
+    Object? hasAddition = null,
   }) {
     return _then(_value.copyWith(
+      regionCode: null == regionCode
+          ? _value.regionCode
+          : regionCode // ignore: cast_nullable_to_non_nullable
+              as String,
       mobileNo: null == mobileNo
           ? _value.mobileNo
           : mobileNo // ignore: cast_nullable_to_non_nullable
@@ -69,6 +83,10 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
           ? _value.password
           : password // ignore: cast_nullable_to_non_nullable
               as String,
+      hasAddition: null == hasAddition
+          ? _value.hasAddition
+          : hasAddition // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -80,7 +98,11 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
       __$$UserImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({@HiveField(0) String mobileNo, @HiveField(1) String password});
+  $Res call(
+      {@HiveField(0) String regionCode,
+      @HiveField(1) String mobileNo,
+      @HiveField(2) String password,
+      @HiveField(3) bool hasAddition});
 }
 
 /// @nodoc
@@ -95,10 +117,16 @@ class __$$UserImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? regionCode = null,
     Object? mobileNo = null,
     Object? password = null,
+    Object? hasAddition = null,
   }) {
     return _then(_$UserImpl(
+      regionCode: null == regionCode
+          ? _value.regionCode
+          : regionCode // ignore: cast_nullable_to_non_nullable
+              as String,
       mobileNo: null == mobileNo
           ? _value.mobileNo
           : mobileNo // ignore: cast_nullable_to_non_nullable
@@ -107,6 +135,10 @@ class __$$UserImplCopyWithImpl<$Res>
           ? _value.password
           : password // ignore: cast_nullable_to_non_nullable
               as String,
+      hasAddition: null == hasAddition
+          ? _value.hasAddition
+          : hasAddition // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -116,22 +148,30 @@ class __$$UserImplCopyWithImpl<$Res>
 @HiveType(typeId: 0)
 class _$UserImpl implements _User {
   const _$UserImpl(
-      {@HiveField(0) required this.mobileNo,
-      @HiveField(1) required this.password});
+      {@HiveField(0) required this.regionCode,
+      @HiveField(1) required this.mobileNo,
+      @HiveField(2) required this.password,
+      @HiveField(3) required this.hasAddition});
 
   factory _$UserImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserImplFromJson(json);
 
   @override
   @HiveField(0)
-  final String mobileNo;
+  final String regionCode;
   @override
   @HiveField(1)
+  final String mobileNo;
+  @override
+  @HiveField(2)
   final String password;
+  @override
+  @HiveField(3)
+  final bool hasAddition;
 
   @override
   String toString() {
-    return 'User(mobileNo: $mobileNo, password: $password)';
+    return 'User(regionCode: $regionCode, mobileNo: $mobileNo, password: $password, hasAddition: $hasAddition)';
   }
 
   @override
@@ -139,15 +179,20 @@ class _$UserImpl implements _User {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$UserImpl &&
+            (identical(other.regionCode, regionCode) ||
+                other.regionCode == regionCode) &&
             (identical(other.mobileNo, mobileNo) ||
                 other.mobileNo == mobileNo) &&
             (identical(other.password, password) ||
-                other.password == password));
+                other.password == password) &&
+            (identical(other.hasAddition, hasAddition) ||
+                other.hasAddition == hasAddition));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, mobileNo, password);
+  int get hashCode =>
+      Object.hash(runtimeType, regionCode, mobileNo, password, hasAddition);
 
   /// Create a copy of User
   /// with the given fields replaced by the non-null parameter values.
@@ -167,17 +212,25 @@ class _$UserImpl implements _User {
 
 abstract class _User implements User {
   const factory _User(
-      {@HiveField(0) required final String mobileNo,
-      @HiveField(1) required final String password}) = _$UserImpl;
+      {@HiveField(0) required final String regionCode,
+      @HiveField(1) required final String mobileNo,
+      @HiveField(2) required final String password,
+      @HiveField(3) required final bool hasAddition}) = _$UserImpl;
 
   factory _User.fromJson(Map<String, dynamic> json) = _$UserImpl.fromJson;
 
   @override
   @HiveField(0)
-  String get mobileNo;
+  String get regionCode;
   @override
   @HiveField(1)
+  String get mobileNo;
+  @override
+  @HiveField(2)
   String get password;
+  @override
+  @HiveField(3)
+  bool get hasAddition;
 
   /// Create a copy of User
   /// with the given fields replaced by the non-null parameter values.

@@ -2,6 +2,8 @@ import 'package:wallet/utils/typedef.dart';
 import 'package:wallet/utils/validators.dart';
 
 mixin ValidationMixin {
+  ValidationCallback emailValidator() => (Object mobileNo) =>
+      CustomValidators.isEmail(mobileNo) ? null : 'Invalid email address';
   ValidationCallback mobileNoValidator() => (Object mobileNo) =>
       CustomValidators.isPhone(mobileNo) ? null : 'Invalid mobile phone';
 

@@ -8,8 +8,10 @@ part 'user.g.dart';
 class User with _$User {
   @HiveType(typeId: 0)
   const factory User({
-    @HiveField(0) required String mobileNo,
-    @HiveField(1) required String password,
+    @HiveField(0) required String regionCode,
+    @HiveField(1) required String mobileNo,
+    @HiveField(2) required String password,
+    @HiveField(3) required bool hasAddition,
   }) = _User;
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);

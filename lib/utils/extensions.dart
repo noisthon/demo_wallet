@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:wallet/utils/formatter.dart';
 import 'package:wallet/utils/parser.dart';
 
 extension StreamValidation<T> on Stream<T> {
@@ -33,7 +34,65 @@ extension StreamValidation<T> on Stream<T> {
   }
 }
 
+extension FormatDouble on double {
+  String format(
+      {String? pattern, int maxFractionLength = 2, String curCode = ""}) {
+    return Formatter.currency(toDouble(),
+            pattern: pattern,
+            maxFractionLength: maxFractionLength,
+            curCode: curCode)
+        .replaceAll(' ', '');
+  }
+
+  String get toPercent => "$this%";
+}
+
+extension DateTimeFormatterExtension on DateTime {
+  String format({
+    String pattern = 'MM/dd/yyyy',
+  }) {
+    if (this == DateTime(0)) return "";
+    return Formatter.date(this, pattern: pattern);
+  }
+
+  String formatWithTime({String pattern = "MM/dd/yyyy hh:mm:ss"}) {
+    if (this == DateTime(0)) return "";
+    return Formatter.date(this, pattern: pattern);
+  }
+}
+
 extension ReDesignStringToWidget on String {
+  String format({
+    FormatType formatType = FormatType.titleCase,
+  }) {
+    return Formatter.string(this, formatType: formatType);
+  }
+
+  static String string(
+    String? str, {
+    FormatType formatType = FormatType.titleCase,
+  }) {
+    if (str == null) return '';
+
+    str = str.trim();
+    switch (formatType) {
+      case FormatType.upperCase:
+        str = str.toUpperCase();
+        break;
+      case FormatType.lowerCase:
+        str = str.toLowerCase();
+        break;
+      case FormatType.titleCase:
+        str = str.toLowerCase();
+        str = "${str[0].toUpperCase()}${str.substring(1)}";
+        break;
+      default:
+        return str;
+    }
+
+    return str;
+  }
+
   Widget text(
     int size, {
     Color? color,
@@ -108,7 +167,13 @@ extension ReDesignStringToWidget on String {
     return Text(
       this,
       key: key,
-      style: style,
+      style: style != null
+          ? style.copyWith(
+              color: style.color ?? color,
+            )
+          : TextStyle(
+              color: color,
+            ),
       strutStyle: strutStyle,
       textAlign: textAlign,
       textDirection: textDirection,

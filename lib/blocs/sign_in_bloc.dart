@@ -8,11 +8,8 @@ import 'package:wallet/blocs/app_bloc.dart';
 import 'package:wallet/repositories/auth_repositories.dart';
 import 'package:wallet/utils/extensions.dart';
 import 'package:wallet/utils/mixin.dart';
-import 'package:wallet/widgets/sign_up/verify_mobile_no_dialog.dart';
 
-class SignInBloc with ValidationMixin implements BaseBloc {
-  final _repositories = UserRepositories();
-
+class SignInBloc extends BaseBloc with ValidationMixin {
   final _regionCodeController = BehaviorSubject<String>.seeded("+976");
   final _mobileNoController = BehaviorSubject<String>();
   final _passwordController = BehaviorSubject<String>();
@@ -45,7 +42,7 @@ class SignInBloc with ValidationMixin implements BaseBloc {
       ]).map((errors) => errors.every((error) => error == null)).distinct();
 
   void onSignIn(BuildContext context) async {
-    final user = await _repositories.signIn(_regionCodeController.value,
+    final user = await repository.signIn(_regionCodeController.value,
         _mobileNoController.value, _passwordController.value);
     if (context.mounted && user != null) {
       final appBloc = context.read<AppBloc>();
