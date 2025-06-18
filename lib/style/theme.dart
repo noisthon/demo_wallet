@@ -7,6 +7,7 @@ abstract interface class MyColor {
   static const Color grey = Color(0xFF565656);
   static const Color purple = Color(0xFF778bfe);
   static const Color orange = Color(0xFFfaa824);
+  static const Color light = Color(0xFFf7f7f7);
 }
 
 abstract interface class MyTheme {
@@ -14,7 +15,10 @@ abstract interface class MyTheme {
     colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
     useMaterial3: true,
     primaryColor: MyColor.primary,
-    appBarTheme: const AppBarTheme(),
+    appBarTheme: const AppBarTheme(
+      color: Colors.transparent
+    ),
+    scaffoldBackgroundColor:MyColor.light ,
     inputDecorationTheme: InputDecorationTheme(
       hintStyle: 16400.style(color: MyColor.lightGrey),
       prefixIconColor: MyColor.lightGrey,

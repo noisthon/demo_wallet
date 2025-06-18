@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet/blocs/additional_info_bloc.dart';
+import 'package:wallet/style/theme.dart';
 import 'package:wallet/utils/ui_utils.dart';
 import 'package:wallet/widgets/additional_info/additional_info_add_email.dart';
 import 'package:wallet/widgets/additional_info/additional_info_country_of_residence.dart';

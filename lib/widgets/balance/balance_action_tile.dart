@@ -41,19 +41,21 @@ class BalanceActionTile extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               for (int i = 0; i < actions.length; i++) ...[
-                GestureDetector(
-                  behavior: HitTestBehavior.opaque,
-                  onTap: actions[i]["onPressed"] as VoidCallback?,
-                  child: Column(
-                    children: [
-                      Icon(
-                        actions[i]["iconData"] as IconData,
-                        size: 34,
-                        color: actions[i]["color"] as Color,
-                      ),
-                      const SizedBox(height: 4),
-                      (actions[i]["title"] as String).text(13400),
-                    ],
+                Expanded(
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: actions[i]["onPressed"] as VoidCallback?,
+                    child: Column(
+                      children: [
+                        Icon(
+                          actions[i]["iconData"] as IconData,
+                          size: 34,
+                          color: actions[i]["color"] as Color,
+                        ),
+                        const SizedBox(height: 4),
+                        (actions[i]["title"] as String).text(13400),
+                      ],
+                    ),
                   ),
                 ),
                 if (i != actions.length - 1)

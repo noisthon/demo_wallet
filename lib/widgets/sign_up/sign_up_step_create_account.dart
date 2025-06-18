@@ -119,19 +119,17 @@ class _SignUpStepCreateAccountState extends State<SignUpStepCreateAccount>
             const SizedBox(height: 12),
             SizedBox(
               width: double.infinity,
-              child: Builder(builder: (context) {
-                return StreamBuilder(
-                  stream: bloc.isCreateAccountStepValid,
-                  builder: (context, snapshot) {
-                    return ElevatedButton(
-                      onPressed: snapshot.data ?? false
-                          ? () => bloc.onValidateMobileNo(context)
-                          : null,
-                      child: "Sign up".txt,
-                    );
-                  },
-                );
-              }),
+              child: StreamBuilder(
+                stream: bloc.isCreateAccountStepValid,
+                builder: (context, snapshot) {
+                  return ElevatedButton(
+                    onPressed: snapshot.data ?? false
+                        ? () => bloc.onValidateMobileNo(context)
+                        : null,
+                    child: "Sign up".txt,
+                  );
+                },
+              ),
             ),
             const SizedBox(height: 12),
           ],

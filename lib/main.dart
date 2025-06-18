@@ -1,11 +1,13 @@
 import 'dart:async';
 
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet/blocs/additional_info_bloc.dart';
 import 'package:wallet/blocs/app_bloc.dart';
 import 'package:wallet/blocs/home_bloc.dart';
+import 'package:wallet/blocs/send_money_bloc.dart';
 import 'package:wallet/blocs/sign_in_bloc.dart';
 import 'package:wallet/blocs/sign_up_bloc.dart';
 import 'package:wallet/models/additional_info.dart';
@@ -14,15 +16,19 @@ import 'package:wallet/screens/additional_info.screen.dart';
 import 'package:wallet/screens/auth.screen.dart';
 import 'package:wallet/screens/home.screen.dart';
 import 'package:wallet/screens/on_boarding.screen.dart';
+import 'package:wallet/screens/qr_reader.screen.dart';
 import 'package:wallet/screens/send_modey.screen.dart';
 import 'package:wallet/screens/sign_in.screen.dart';
 import 'package:wallet/screens/sign_up.screen.dart';
+import 'package:wallet/screens/transaction_complete.screen.dart';
 import 'package:wallet/style/theme.dart';
 import 'package:wallet/widgets/hide_keyboard.dart';
 import 'package:wallet/widgets/provider.dart';
 
+late List<CameraDescription> cameras;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  cameras = await availableCameras();
   await Hive.initFlutter();
   Hive.registerAdapter(UserImplAdapter());
   Hive.registerAdapter(AdditionalInfoImplAdapter());
@@ -83,10 +89,15 @@ class _MyAppState extends State<MyApp> {
               routes: {
                 OnBoardingScreen.routeName: (context) =>
                     const OnBoardingScreen(),
+                QrReaderScreen.routeName: (context) => const QrReaderScreen(),
+                TransactionCompleteScreen.routeName: (context) =>
+                    const TransactionCompleteScreen(),
                 AuthScreen.routeName: (context) => const AuthScreen(),
-                SendModeyScreen.routeName: (context) => const SendModeyScreen(),
+                SendModeyScreen.routeName: (context) => CustomProvider(
+                    create: (_) => SendMoneyBloc(),
+                    child: const SendModeyScreen()),
                 HomeScreen.routeName: (context) => CustomProvider(
-                      create: (context) => HomeBloc(),
+                      create: (_) => HomeBloc(),
                       child: const HomeScreen(),
                     ),
                 SignUpScreen.routeName: (context) => CustomProvider(

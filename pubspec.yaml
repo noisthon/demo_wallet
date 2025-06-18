@@ -26,6 +26,7 @@ dependencies:
   intl: ^0.20.2
   sliver_tools: ^0.2.12
   field_suggestion: ^0.2.6
+  camera: ^0.11.1
 
 dev_dependencies:
   flutter_test:
