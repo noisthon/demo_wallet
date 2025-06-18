@@ -21,11 +21,17 @@ class BalanceActionTile extends StatelessWidget {
         "iconData": Icons.attach_money_rounded,
         "color": MyColor.orange,
         "title": "Request",
+        "onPressed": () {
+          Navigator.pushNamed(context, "Request");
+        },
       },
       {
         "iconData": Icons.account_balance_rounded,
         "color": MyColor.orange,
         "title": "Bank",
+        "onPressed": () {
+          Navigator.pushNamed(context, "bank");
+        },
       },
     ];
     return SizedBox(

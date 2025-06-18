@@ -72,7 +72,7 @@ class BalanceMainCard extends StatelessWidget {
                       color: Colors.white,
                     ),
                     onPressed: () {
-                      print("object");
+                      Navigator.pushNamed(context, "notification");
                     },
                   ),
                 ],

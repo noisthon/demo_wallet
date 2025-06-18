@@ -5,7 +5,7 @@
 - ~~Auth~~
 - ~~Additional info~~
 - ~~Home~~
-- Payment
+- ~~Payment~~
 - Loader & Error message
 - Theme
 - Test

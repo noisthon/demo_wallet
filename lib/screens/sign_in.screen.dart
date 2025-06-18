@@ -119,7 +119,7 @@ class SignInScreen extends StatelessWidget {
                     style: const TextStyle(color: MyColor.primary),
                     recognizer: TapGestureRecognizer()
                       ..onTap = () {
-                        print('Hello World');
+                        Navigator.pushNamed(context, "Terms");
                       },
                   )),
               const Spacer(),

@@ -58,7 +58,7 @@ class AuthScreen extends StatelessWidget {
                         style: const TextStyle(color: MyColor.primary),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            print('Hello World');
+                            Navigator.pushNamed(context, "Terms");
                           },
                       ),
                       const TextSpan(text: " and "),
@@ -67,7 +67,7 @@ class AuthScreen extends StatelessWidget {
                         style: const TextStyle(color: MyColor.primary),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            print('Hello World');
+                            Navigator.pushNamed(context, "Policy");
                           },
                       ),
                     ])),

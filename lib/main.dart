@@ -15,6 +15,7 @@ import 'package:wallet/models/user.dart';
 import 'package:wallet/screens/additional_info.screen.dart';
 import 'package:wallet/screens/auth.screen.dart';
 import 'package:wallet/screens/home.screen.dart';
+import 'package:wallet/screens/not_found.screen.dart';
 import 'package:wallet/screens/on_boarding.screen.dart';
 import 'package:wallet/screens/qr_reader.screen.dart';
 import 'package:wallet/screens/send_modey.screen.dart';
@@ -86,6 +87,11 @@ class _MyAppState extends State<MyApp> {
               navigatorKey: navigatorKey,
               title: 'Flutter Demo',
               theme: asyncSnapshot.data,
+              onUnknownRoute: (settings) => MaterialPageRoute<void>(
+                settings:
+                    settings, // It's good practice to pass the original settings
+                builder: (BuildContext context) => const NotFoundScreen(),
+              ),
               routes: {
                 OnBoardingScreen.routeName: (context) =>
                     const OnBoardingScreen(),
