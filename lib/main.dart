@@ -85,6 +85,7 @@ class _MyAppState extends State<MyApp> {
           builder: (context, asyncSnapshot) {
             return MaterialApp(
               navigatorKey: navigatorKey,
+              debugShowCheckedModeBanner: false,
               title: 'Flutter Demo',
               theme: asyncSnapshot.data,
               onUnknownRoute: (settings) => MaterialPageRoute<void>(
